@@ -70,7 +70,17 @@ const App = () => {
         </header>
         <section className="all-movies">
           <h2>All Movies</h2>
-          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+          {isLoading ? (
+            <p className="text-white">Loading...</p>
+          ) : errorMessage ? (
+            <p className="text-red-500">{errorMessage}</p>
+          ) : (
+            <ul>
+              {movieList.map((movie) => (
+                <p className="text-white">{movie.title}</p>
+              ))}
+            </ul>
+          )}
         </section>
       </div>
     </main>
