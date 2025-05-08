@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Search from "./components/Search";
 
 const App = () => {
@@ -19,11 +19,29 @@ const App = () => {
 
   const fetchMovies = async () => {
     try {
+      const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+      const response = await fetch(endpoint, API_OPTIONS);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch movies");
+      }
+
+      const data = await response.json();
+      console.log(data);
+
+      // OMDB에서만 쓰이는 특이 응답 예시
+      // if (data.success === "false") {
+      //   setErrorMessage(data.Error || "Failed to fetch movies");
+      // }
     } catch (error) {
       console.error(`Error fetching movies: ${error}`);
       setErrorMessage("Error fetching movies. Please try again later.");
     }
   };
+
+  useEffect(() => {
+    fetchMovies();
+  }, []);
 
   return (
     <main>
