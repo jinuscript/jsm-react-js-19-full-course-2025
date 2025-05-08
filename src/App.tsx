@@ -3,6 +3,7 @@ import Search from "./components/Search";
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const API_BASE_URL = "https://api.themoviedb.org/3";
 
@@ -14,6 +15,14 @@ const App = () => {
       accept: "application/json",
       Authorization: `Bearer ${API_KEY}`,
     },
+  };
+
+  const fetchMovies = async () => {
+    try {
+    } catch (error) {
+      console.error(`Error fetching movies: ${error}`);
+      setErrorMessage("Error fetching movies. Please try again later.");
+    }
   };
 
   return (
@@ -30,6 +39,10 @@ const App = () => {
 
           <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         </header>
+        <section className="all-movies">
+          <h2>All Movies</h2>
+          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+        </section>
       </div>
     </main>
   );
