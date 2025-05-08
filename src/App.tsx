@@ -4,6 +4,7 @@ import Search from "./components/Search";
 const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [movieList, setMovieList] = useState([]);
 
   const API_BASE_URL = "https://api.themoviedb.org/3";
 
@@ -30,9 +31,13 @@ const App = () => {
       console.log(data);
 
       // OMDB에서만 쓰이는 특이 응답 예시
-      // if (data.success === "false") {
-      //   setErrorMessage(data.Error || "Failed to fetch movies");
-      // }
+      if (data.Response === "False") {
+        setErrorMessage(data.Error || "Failed to fetch movies");
+        setMovieList([]);
+        return;
+      }
+
+      setMovieList(data.results || []);
     } catch (error) {
       console.error(`Error fetching movies: ${error}`);
       setErrorMessage("Error fetching movies. Please try again later.");
