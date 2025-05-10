@@ -38,13 +38,6 @@ const App = () => {
       const data = await response.json();
       console.log(data);
 
-      // OMDB에서만 쓰이는 특이 응답 예시
-      if (data.Response === "False") {
-        setErrorMessage(data.Error || "Failed to fetch movies");
-        setMovieList([]);
-        return;
-      }
-
       setMovieList(data.results || []);
     } catch (error) {
       console.error(`Error fetching movies: ${error}`);
