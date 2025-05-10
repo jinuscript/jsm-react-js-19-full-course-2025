@@ -10,6 +10,7 @@ const client = new Client()
 
 const database = new Databases(client);
 
+// 검색어를 DB에 저장 및 업데이트하는 기능
 export const updateSearchCount = async (searchTerm, movie) => {
   //1. Use Appwrite SDK to check if the search term exists in the database
   try {
@@ -33,6 +34,20 @@ export const updateSearchCount = async (searchTerm, movie) => {
         poster_url: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
       });
     }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 가장 많이 검색된 영화 데이터 반환
+export const getTrendingMovies = async () => {
+  try {
+    const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
+      Query.limit(5),
+      Query.orderDesc("count"),
+    ]);
+
+    return result.documents;
   } catch (error) {
     console.error(error);
   }
